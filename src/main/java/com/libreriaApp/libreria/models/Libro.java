@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,8 +19,8 @@ public class Libro {
     private Long idLibro;
 
     private String titulo;
-    private int anioEdicion;
     private String image;
+    private BigDecimal precio;
 
     @ManyToOne
     @JoinColumn(name = "autor_id")

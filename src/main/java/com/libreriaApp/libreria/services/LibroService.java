@@ -1,5 +1,7 @@
 package com.libreriaApp.libreria.services;
 
+import com.libreriaApp.libreria.DTOs.LibroDetalleDTO;
+import com.libreriaApp.libreria.DTOs.LibroTiendaDTO;
 import com.libreriaApp.libreria.models.Autor;
 import com.libreriaApp.libreria.models.Categoria;
 import com.libreriaApp.libreria.models.Editorial;
@@ -13,9 +15,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class LibroService implements ILibroService{
+public class LibroService implements ILibroService {
 
 
     private ILibrosRepository libroRepo;
@@ -63,11 +66,9 @@ public class LibroService implements ILibroService{
     }
 
 
-    public Libro actualizarLibro(Libro libro){
+    public Libro actualizarLibro(Libro libro) {
         return libroRepo.save(libro);
     }
-
-
 
 
     public void eliminarPorId(Long id) {
@@ -75,6 +76,40 @@ public class LibroService implements ILibroService{
     }
 
 
+    private LibroTiendaDTO toTiendaDTO(Libro libro) {
+        LibroTiendaDTO dto = new LibroTiendaDTO();
+        dto.setId(libro.getIdLibro());
+        dto.setTitulo(libro.getTitulo());
+        dto.setAutor(libro.getAutor().getNombre() + " " + libro.getAutor().getApellido());
+        dto.setCategoria(libro.getCategoria().getNombreGenero());
+        dto.setImagen(libro.getImage());
+        dto.setPrecio(libro.getPrecio()); // cuando lo agregues a Libro
+        return dto;
+    }
 
+    private LibroDetalleDTO toDetalleDTO(Libro libro) {
+        LibroDetalleDTO dto = new LibroDetalleDTO();
+        dto.setId(libro.getIdLibro());
+        dto.setTitulo(libro.getTitulo());
+        dto.setAutor(libro.getAutor().getNombre() + " " + libro.getAutor().getApellido());
+        dto.setCategoria(libro.getCategoria().getNombreGenero());
+        dto.setEditorial(libro.getEditorial().getNombre());
+        dto.setImagen(libro.getImage());
+        dto.setPrecio(libro.getPrecio());
+        return dto;
+    }
 
+    @Override
+    public List<LibroTiendaDTO> listarParaTienda() {
+        return libroRepo.findAll()
+                .stream()                    // convierte la lista en un flujo
+                .map(this::toTiendaDTO)      // aplica toTiendaDTO a cada libro
+                .collect(Collectors.toList()); // vuelve a armar una lista
+    }
+
+    @Override
+    public Optional<LibroDetalleDTO> buscarDetallePorId(Long id) {
+        return libroRepo.findById(id)
+                .map(this::toDetalleDTO); // si existe, lo convierte
+    }
 }

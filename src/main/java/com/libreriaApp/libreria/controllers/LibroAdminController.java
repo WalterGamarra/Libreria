@@ -12,12 +12,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/libro")
-public class LibroRestController {
+public class LibroAdminController {
 
     private ILibroService libroService;
 
     @Autowired
-    public LibroRestController(ILibroService libroService) {
+    public LibroAdminController(ILibroService libroService) {
         this.libroService = libroService;
     }
 
