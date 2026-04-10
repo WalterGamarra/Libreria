@@ -22,8 +22,8 @@ public class LibroService implements ILibroService {
 
 
     private ILibrosRepository libroRepo;
-    private IAutorRepository autorRepo;          // ← agregar
-    private ICategoriaRepository categoriaRepo;  // ← agregar
+    private IAutorRepository autorRepo;
+    private ICategoriaRepository categoriaRepo;
     private IEditorialRepository editorialRepo;
 
     @Autowired
