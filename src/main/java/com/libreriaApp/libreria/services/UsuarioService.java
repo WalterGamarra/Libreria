@@ -1,41 +1,43 @@
 package com.libreriaApp.libreria.services;
 
-import com.libreriaApp.libreria.models.Usuario;
+import com.libreriaApp.libreria.models.usuarios_seguridad.UserSec;
 import com.libreriaApp.libreria.repositories.IUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-
 public class UsuarioService implements IUsuarioServices {
 
     @Autowired
     private IUsuarioRepository usuarioRepo;
 
-    public UsuarioService(IUsuarioRepository usuarioRepo) {
-        this.usuarioRepo = usuarioRepo;
+    @Override
+    public String encriptPassword(String password) {
+        return new BCryptPasswordEncoder().encode(password);
     }
 
     @Override
-    public Usuario save(Usuario usuario) {
+    public UserSec save(UserSec usuario) {
         return usuarioRepo.save(usuario);
     }
 
     @Override
-    public List<Usuario> findAll() {
+    public List<UserSec> findAll() {
         return usuarioRepo.findAll();
     }
 
     @Override
-    public Optional<Usuario> findBy(Long id) {
+    public Optional<UserSec> findBy(Long id) {
         return usuarioRepo.findById(id);
     }
 
     @Override
-    public Usuario updateUsuario(Usuario usuario) {
+    public UserSec updateUsuario(UserSec usuario) {
         return usuarioRepo.save(usuario);
     }
 

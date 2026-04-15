@@ -1,5 +1,6 @@
 package com.libreriaApp.libreria.services;
 
+import com.libreriaApp.libreria.DTOs.LibroCreateDTO;
 import com.libreriaApp.libreria.DTOs.LibroDetalleDTO;
 import com.libreriaApp.libreria.DTOs.LibroTiendaDTO;
 import com.libreriaApp.libreria.models.Autor;
@@ -38,23 +39,30 @@ public class LibroService implements ILibroService {
         this.editorialRepo = editorialRepo;
     }
 
+
     @Override
-    public Libro crearLibro(Libro libro) {
-        Autor autor = autorRepo.findById(libro.getAutor().getIdAutor())
-                .orElseThrow(() -> new RuntimeException("Autor con id "
-                        + libro.getAutor().getIdAutor() + " no encontrado"));
-        Categoria categoria = categoriaRepo.findById(libro.getCategoria().getIdCategoria())
-                .orElseThrow(() -> new RuntimeException("Categoria con id "
-                        + libro.getCategoria().getIdCategoria() + " no encontrada"));
-        Editorial editorial = editorialRepo.findById(libro.getEditorial().getIdEditorial())
-                .orElseThrow(() -> new RuntimeException("Editorial con id "
-                        + libro.getEditorial().getIdEditorial() + " no encontrada"));
+    public Libro crearLibro(LibroCreateDTO dto) {
+
+        Autor autor = autorRepo.findById(dto.getAutorId())
+                .orElseThrow(() -> new RuntimeException("Autor no encontrado"));
+
+        Categoria categoria = categoriaRepo.findById(dto.getCategoriaId())
+                .orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
+
+        Editorial editorial = editorialRepo.findById(dto.getEditorialId())
+                .orElseThrow(() -> new RuntimeException("Editorial no encontrada"));
+
+        Libro libro = new Libro();
+        libro.setTitulo(dto.getTitulo());
+        libro.setImage(dto.getImage());
+        libro.setPrecio(dto.getPrecio());
+        libro.setAnioEdicion(dto.getAnioEdicion());
         libro.setAutor(autor);
         libro.setCategoria(categoria);
         libro.setEditorial(editorial);
+
         return libroRepo.save(libro);
     }
-
 
     public List<Libro> listarLibros() {
         return libroRepo.findAll();
@@ -66,10 +74,30 @@ public class LibroService implements ILibroService {
     }
 
 
-    public Libro actualizarLibro(Libro libro) {
+    @Override
+    public Libro actualizarLibro(Long id, LibroCreateDTO dto) {
+
+        Libro libro = libroRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Libro no encontrado"));
+
+        Autor autor = autorRepo.findById(dto.getAutorId())
+                .orElseThrow(() -> new RuntimeException("Autor no encontrado"));
+
+        Categoria categoria = categoriaRepo.findById(dto.getCategoriaId())
+                .orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
+
+        Editorial editorial = editorialRepo.findById(dto.getEditorialId())
+                .orElseThrow(() -> new RuntimeException("Editorial no encontrada"));
+
+        libro.setTitulo(dto.getTitulo());
+        libro.setImage(dto.getImage());
+        libro.setPrecio(dto.getPrecio());
+        libro.setAutor(autor);
+        libro.setCategoria(categoria);
+        libro.setEditorial(editorial);
+
         return libroRepo.save(libro);
     }
-
 
     public void eliminarPorId(Long id) {
         libroRepo.deleteById(id);
@@ -98,6 +126,29 @@ public class LibroService implements ILibroService {
         dto.setPrecio(libro.getPrecio());
         return dto;
     }
+/*
+    public Libro crearLibro(LibroCreateDTO dto) {
+
+        Autor autor = autorRepo.findById(dto.getAutorId())
+                .orElseThrow(() -> new RuntimeException("Autor no encontrado"));
+
+        Categoria categoria = categoriaRepo.findById(dto.getCategoriaId())
+                .orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
+
+        Editorial editorial = editorialRepo.findById(dto.getEditorialId())
+                .orElseThrow(() -> new RuntimeException("Editorial no encontrada"));
+
+        Libro libro = new Libro();
+        libro.setTitulo(dto.getTitulo());
+        libro.setImage(dto.getImage());
+        libro.setPrecio(dto.getPrecio());
+        libro.setAutor(autor);
+        libro.setCategoria(categoria);
+        libro.setEditorial(editorial);
+
+        return libroRepo.save(libro);
+    }*/
+
 
     @Override
     public List<LibroTiendaDTO> listarParaTienda() {
