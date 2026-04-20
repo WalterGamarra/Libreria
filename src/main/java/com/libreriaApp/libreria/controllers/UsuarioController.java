@@ -1,11 +1,14 @@
 package com.libreriaApp.libreria.controllers;
 
+import com.libreriaApp.libreria.DTOs.UsuarioCreateDTO;
+import com.libreriaApp.libreria.DTOs.UsuarioResponseDTO;
 import com.libreriaApp.libreria.models.usuarios_seguridad.Rol;
 import com.libreriaApp.libreria.models.usuarios_seguridad.UserSec;
 import com.libreriaApp.libreria.services.IRolService;
 import com.libreriaApp.libreria.services.IUsuarioServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -15,6 +18,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/usuario")
+@PreAuthorize("hasRole('ADMIN')")
 public class UsuarioController {
 
     @Autowired
@@ -23,42 +27,69 @@ public class UsuarioController {
     private IUsuarioServices usuarioServices;
 
     @GetMapping
-    public ResponseEntity <List <UserSec>> getAllUsuario(){
-        List <UserSec> usuario = usuarioServices.findAll();
-        return ResponseEntity.ok(usuario);
+    public ResponseEntity<List<UsuarioResponseDTO>> getAllUsuario() {
+
+        List<UserSec> usuarios = usuarioServices.findAll();
+
+        List<UsuarioResponseDTO> response = usuarios.stream().map(user ->
+                new UsuarioResponseDTO(
+                        user.getId(),
+                        user.getUsername(),
+                        user.getRolesList().stream()
+                                .map(rol -> rol.getRole()) // o getName()
+                                .collect(java.util.stream.Collectors.toSet())
+                )
+        ).toList();
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity <UserSec> getUsuarioById(@PathVariable Long id){
-        Optional <UserSec> usuario = usuarioServices.findBy(id);
-        return usuario.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<UsuarioResponseDTO> getUsuarioById(@PathVariable Long id){
+
+        Optional<UserSec> usuarioOpt = usuarioServices.findBy(id);
+
+        if (usuarioOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        UserSec user = usuarioOpt.get();
+
+        UsuarioResponseDTO response = new UsuarioResponseDTO(
+                user.getId(),
+                user.getUsername(),
+                user.getRolesList().stream()
+                        .map(rol -> rol.getRole()) // ⚠️ o getName()
+                        .collect(java.util.stream.Collectors.toSet())
+        );
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping
-    public ResponseEntity <UserSec> crearUsuario(@RequestBody UserSec usuario){
-        Set<Rol> listaRol = new HashSet<Rol>();
-        Rol leerRol;
+    public ResponseEntity<UsuarioResponseDTO> crearUsuario(@RequestBody UsuarioCreateDTO dto){
 
-        //Encriptar contraseña
-        usuario.setPassword(usuarioServices.encriptPassword(usuario.getPassword()));
+        UserSec usuario = new UserSec();
 
-        for (Rol rol : usuario.getRolesList()){
-            leerRol = rolService.findById(rol.getId()).orElse(null);
+        Set<Rol> roles = new HashSet<>();
 
-            if (leerRol != null){
-                listaRol.add(leerRol);
-            }
+        for (Long rolId : dto.getRolesIds()) {
+            rolService.findById(rolId).ifPresent(roles::add);
         }
-        if (!listaRol.isEmpty()){
-            usuario.setRolesList(listaRol);
-            UserSec nuevoUsuario = usuarioServices.save(usuario);
-            return ResponseEntity.ok(nuevoUsuario);
-        }
-        return null;
+
+
+        usuario.setRolesList(roles);
+        usuario.setPassword(usuarioServices.encriptPassword(dto.getPassword()));
+        usuario.setRolesList(roles);
+
+        UserSec nuevoUsuario = usuarioServices.save(usuario);
+
+        UsuarioResponseDTO response = new UsuarioResponseDTO(
+                nuevoUsuario.getId(),
+                nuevoUsuario.getUsername(),
+                roles.stream().map(Rol::getRole).collect(java.util.stream.Collectors.toSet())
+        );
+
+        return ResponseEntity.ok(response);
     }
-
-
-
-
-
 }

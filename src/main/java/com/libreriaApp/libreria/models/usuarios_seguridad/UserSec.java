@@ -19,7 +19,7 @@ public class UserSec   {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String userName;
+    private String username;
     private String password;
     private boolean enabled; //Confirma si esta disponible
     private boolean accountNotExpired; //Confirma que cuenta no esta expirada
