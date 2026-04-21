@@ -37,27 +37,30 @@ public class JwtTokenValidator extends OncePerRequestFilter {
         System.out.println(">>> AUTHORIZATION HEADER: " + jwtToken);
 
         if (jwtToken != null){
+            try {
+                jwtToken = jwtToken.substring(7);
 
-            jwtToken = jwtToken.substring(7);
+                DecodedJWT decodedJWT = jwtUtils.validateToken(jwtToken);
 
-            DecodedJWT decodedJWT = jwtUtils.validateToken(jwtToken);
+                String userName = jwtUtils.extractUserName(decodedJWT);
 
-            String userName = jwtUtils.extractUserName(decodedJWT);
+                String authorities = jwtUtils.getSpecificClaim(decodedJWT, "authorities").asString();
+                Collection<? extends GrantedAuthority> authoritiesList =
+                        AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
 
-            String authorities = jwtUtils.getSpecificClaim(decodedJWT, "authorities").asString();
+                SecurityContext context = SecurityContextHolder.getContext();
+                Authentication authentication = new UsernamePasswordAuthenticationToken(
+                        userName, null, authoritiesList);
+                context.setAuthentication(authentication);
+                SecurityContextHolder.setContext(context);
 
-            Collection <? extends GrantedAuthority> authoritiesList = AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
+                System.out.println(">>> AUTH OK - usuario: " + userName);
 
-            SecurityContext context = SecurityContextHolder.getContext();
-
-            Authentication authentication = new UsernamePasswordAuthenticationToken(userName,  null, authoritiesList);
-
-            context.setAuthentication(authentication);
-
-            SecurityContextHolder.setContext(context);
-
-
+            } catch (Exception e) {
+                System.out.println(">>> ERROR VALIDANDO TOKEN: " + e.getMessage());
+            }
         }
+
 
         filterChain.doFilter(request, response);
 
