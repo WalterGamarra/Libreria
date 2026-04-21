@@ -22,6 +22,9 @@ public class Libro {
     private String image;
     private BigDecimal precio;
 
+    @Column(nullable = false)
+    private Integer anioEdicion;
+
     @ManyToOne
     @JoinColumn(name = "autor_id")
     @JsonBackReference(value = "autor-libros")
