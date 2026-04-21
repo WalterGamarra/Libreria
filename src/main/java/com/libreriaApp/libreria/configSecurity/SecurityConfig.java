@@ -38,12 +38,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/api/v1/tienda/**").permitAll()
-                        .requestMatchers("/api/v1/admin/**").authenticated()
-                        .anyRequest().authenticated()
-                )
+                        .authorizeHttpRequests(auth -> auth
+                                .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/api/v1/tienda/admin/**").authenticated()  // ← más específica primero
+                                .requestMatchers("/api/v1/tienda/**").permitAll()            // ← más general después
+                                .anyRequest().authenticated()
+                        )
 
                 .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class)
 
