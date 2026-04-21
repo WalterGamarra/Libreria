@@ -16,7 +16,7 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(false);
-        config.addAllowedOriginPattern("*");
+        config.addAllowedOrigin("https://libreria-app.netlify.app");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
 
