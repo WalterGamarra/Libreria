@@ -34,6 +34,8 @@ public class JwtTokenValidator extends OncePerRequestFilter {
 
         String jwtToken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
+        System.out.println(">>> AUTHORIZATION HEADER: " + jwtToken);
+
         if (jwtToken != null){
 
             jwtToken = jwtToken.substring(7);
@@ -60,5 +62,7 @@ public class JwtTokenValidator extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
 
     }
+
+
 
 }
