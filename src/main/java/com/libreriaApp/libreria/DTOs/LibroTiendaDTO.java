@@ -15,4 +15,5 @@ public class LibroTiendaDTO {
     private String imagen;
     private BigDecimal precio;
     private String isbn;
+
 }

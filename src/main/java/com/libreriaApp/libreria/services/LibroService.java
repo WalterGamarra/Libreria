@@ -60,7 +60,7 @@ public class LibroService implements ILibroService {
         libro.setAutor(autor);
         libro.setCategoria(categoria);
         libro.setEditorial(editorial);
-        dto.setIsbn(libro.getIsbn());
+        libro.setIsbn(dto.getIsbn());
 
         return libroRepo.save(libro);
     }
@@ -96,7 +96,7 @@ public class LibroService implements ILibroService {
         libro.setAutor(autor);
         libro.setCategoria(categoria);
         libro.setEditorial(editorial);
-        dto.setIsbn(libro.getIsbn());
+        libro.setIsbn(dto.getIsbn());
 
         return libroRepo.save(libro);
     }
@@ -129,6 +129,7 @@ public class LibroService implements ILibroService {
         dto.setImagen(libro.getImage());
         dto.setPrecio(libro.getPrecio());
         dto.setIsbn(libro.getIsbn());
+
 
         return dto;
     }

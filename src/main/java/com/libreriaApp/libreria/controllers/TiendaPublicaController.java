@@ -1,5 +1,7 @@
 package com.libreriaApp.libreria.controllers;
 
+import com.libreriaApp.libreria.DTOs.LibroDetalleDTO;
+import com.libreriaApp.libreria.DTOs.LibroTiendaDTO;
 import com.libreriaApp.libreria.models.Libro;
 import com.libreriaApp.libreria.services.ILibroService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +21,14 @@ public class TiendaPublicaController {
         this.libroService = libroService;
     }
 
-    // 📚 Listar libros (público)
     @GetMapping
-    public ResponseEntity<List<Libro>> listarLibros() {
-        return ResponseEntity.ok(libroService.listarLibros());
+    public ResponseEntity<List<LibroTiendaDTO>> listarLibros() {
+        return ResponseEntity.ok(libroService.listarParaTienda());
     }
 
-    // 🔍 Ver detalle de libro
     @GetMapping("/{id}")
-    public ResponseEntity<Libro> getLibroPorId(@PathVariable Long id) {
-        return libroService.buscarPorLibro(id)
+    public ResponseEntity<LibroDetalleDTO> getLibroPorId(@PathVariable Long id) {
+        return libroService.buscarDetallePorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
