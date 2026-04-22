@@ -21,14 +21,9 @@ public class TiendaPublicaController {
         this.libroService = libroService;
     }
 
-    /*@GetMapping
+    @GetMapping
     public ResponseEntity<List<LibroTiendaDTO>> listarLibros() {
         return ResponseEntity.ok(libroService.listarParaTienda());
-    }*/
-
-    @GetMapping
-    public ResponseEntity<String> listarLibros() {
-        return ResponseEntity.ok("FUNCIONA NUEVO CONTROLLER");
     }
 
     @GetMapping("/{id}")
