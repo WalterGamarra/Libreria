@@ -17,4 +17,6 @@ public class LibroDetalleDTO {
     private String editorial;
     private String imagen;
     private BigDecimal precio;
+    private String isbn;
+
 }

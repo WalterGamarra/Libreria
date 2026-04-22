@@ -15,4 +15,6 @@ public class LibroCreateDTO {
     private Long autorId;
     private Long categoriaId;
     private Long editorialId;
+    private String isbn;
+
 }

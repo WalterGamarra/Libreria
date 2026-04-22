@@ -60,6 +60,7 @@ public class LibroService implements ILibroService {
         libro.setAutor(autor);
         libro.setCategoria(categoria);
         libro.setEditorial(editorial);
+        dto.setIsbn(libro.getIsbn());
 
         return libroRepo.save(libro);
     }
@@ -95,6 +96,7 @@ public class LibroService implements ILibroService {
         libro.setAutor(autor);
         libro.setCategoria(categoria);
         libro.setEditorial(editorial);
+        dto.setIsbn(libro.getIsbn());
 
         return libroRepo.save(libro);
     }
@@ -112,6 +114,8 @@ public class LibroService implements ILibroService {
         dto.setCategoria(libro.getCategoria().getNombreGenero());
         dto.setImagen(libro.getImage());
         dto.setPrecio(libro.getPrecio()); // cuando lo agregues a Libro
+        dto.setIsbn(libro.getIsbn());
+
         return dto;
     }
 
@@ -124,43 +128,23 @@ public class LibroService implements ILibroService {
         dto.setEditorial(libro.getEditorial().getNombre());
         dto.setImagen(libro.getImage());
         dto.setPrecio(libro.getPrecio());
+        dto.setIsbn(libro.getIsbn());
+
         return dto;
     }
-/*
-    public Libro crearLibro(LibroCreateDTO dto) {
-
-        Autor autor = autorRepo.findById(dto.getAutorId())
-                .orElseThrow(() -> new RuntimeException("Autor no encontrado"));
-
-        Categoria categoria = categoriaRepo.findById(dto.getCategoriaId())
-                .orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
-
-        Editorial editorial = editorialRepo.findById(dto.getEditorialId())
-                .orElseThrow(() -> new RuntimeException("Editorial no encontrada"));
-
-        Libro libro = new Libro();
-        libro.setTitulo(dto.getTitulo());
-        libro.setImage(dto.getImage());
-        libro.setPrecio(dto.getPrecio());
-        libro.setAutor(autor);
-        libro.setCategoria(categoria);
-        libro.setEditorial(editorial);
-
-        return libroRepo.save(libro);
-    }*/
 
 
     @Override
     public List<LibroTiendaDTO> listarParaTienda() {
         return libroRepo.findAll()
-                .stream()                    // convierte la lista en un flujo
-                .map(this::toTiendaDTO)      // aplica toTiendaDTO a cada libro
-                .collect(Collectors.toList()); // vuelve a armar una lista
+                .stream()
+                .map(this::toTiendaDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
     public Optional<LibroDetalleDTO> buscarDetallePorId(Long id) {
         return libroRepo.findById(id)
-                .map(this::toDetalleDTO); // si existe, lo convierte
+                .map(this::toDetalleDTO);
     }
 }

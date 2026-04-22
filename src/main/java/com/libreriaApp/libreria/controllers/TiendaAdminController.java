@@ -39,7 +39,7 @@ public class TiendaAdminController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // ✏️ SOLO ADMIN
+    // SOLO ADMIN
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Libro> crear(@RequestBody LibroCreateDTO dto) {

@@ -25,6 +25,9 @@ public class Libro {
     @Column(nullable = false)
     private Integer anioEdicion;
 
+    @Column(unique = true)
+    private String isbn;
+
     @ManyToOne
     @JoinColumn(name = "autor_id")
     @JsonBackReference(value = "autor-libros")
