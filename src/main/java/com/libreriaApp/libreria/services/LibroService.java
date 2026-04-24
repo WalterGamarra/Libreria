@@ -100,7 +100,6 @@ public class LibroService implements ILibroService {
 
         return libroRepo.save(libro);
     }
-
     public void eliminarPorId(Long id) {
         libroRepo.deleteById(id);
     }

@@ -4,12 +4,14 @@ import com.libreriaApp.libreria.models.Editorial;
 import com.libreriaApp.libreria.models.Libro;
 import com.libreriaApp.libreria.repositories.IEditorialRepository;
 import com.libreriaApp.libreria.services.IEditorialService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Editoriales", description = "CRUD de editoriales")
 @RestController
 @RequestMapping("/api/v1/tienda/admin/editorial")
 public class EditorialRestController {

@@ -40,8 +40,12 @@ public class SecurityConfig {
 
                         .authorizeHttpRequests(auth -> auth
                                 .requestMatchers("/auth/**").permitAll()
-                                .requestMatchers("/api/v1/tienda/admin/**").authenticated()  // ← más específica primero
-                                .requestMatchers("/api/v1/tienda/**").permitAll()            // ← más general después
+                                .requestMatchers("/api/v1/tienda/admin/**").authenticated()
+                                .requestMatchers("/api/v1/tienda/**").permitAll()
+                                .requestMatchers(
+                                        "/swagger-ui/**",
+                                        "/swagger-ui.html",
+                                        "/v3/api-docs/**").permitAll()
                                 .anyRequest().authenticated()
                         )
 

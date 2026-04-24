@@ -4,6 +4,7 @@ import com.libreriaApp.libreria.models.usuarios_seguridad.Permiso;
 import com.libreriaApp.libreria.models.usuarios_seguridad.Rol;
 import com.libreriaApp.libreria.services.IPermisoService;
 import com.libreriaApp.libreria.services.IRolService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+@Tag(name = "Roles", description = "Gestión de roles de usuario")
 @RestController
 @RequestMapping("/api/v1/rol")
 public class RolController {

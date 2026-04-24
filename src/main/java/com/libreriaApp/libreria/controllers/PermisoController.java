@@ -3,6 +3,7 @@ package com.libreriaApp.libreria.controllers;
 
 import com.libreriaApp.libreria.models.usuarios_seguridad.Permiso;
 import com.libreriaApp.libreria.services.IPermisoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "Permisos", description = "Gestión de permisos")
 @RestController
 @RequestMapping("/api/v1/permisos")
 public class PermisoController {

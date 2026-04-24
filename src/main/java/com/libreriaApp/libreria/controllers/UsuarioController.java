@@ -6,6 +6,7 @@ import com.libreriaApp.libreria.models.usuarios_seguridad.Rol;
 import com.libreriaApp.libreria.models.usuarios_seguridad.UserSec;
 import com.libreriaApp.libreria.services.IRolService;
 import com.libreriaApp.libreria.services.IUsuarioServices;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+@Tag(name = "Usuarios", description = "Gestión de usuarios")
 @RestController
 @RequestMapping("/api/v1/usuario")
 @PreAuthorize("hasRole('ADMIN')")
