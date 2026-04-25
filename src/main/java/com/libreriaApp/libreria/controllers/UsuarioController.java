@@ -79,10 +79,13 @@ public class UsuarioController {
             rolService.findById(rolId).ifPresent(roles::add);
         }
 
-
         usuario.setRolesList(roles);
         usuario.setPassword(usuarioServices.encriptPassword(dto.getPassword()));
         usuario.setRolesList(roles);
+        usuario.setEnabled(true);
+        usuario.setAccountNotExpired(true);
+        usuario.setCredentialNotExpired(true);
+        usuario.setAccountNotLocked(true);
 
         UserSec nuevoUsuario = usuarioServices.save(usuario);
 
@@ -91,7 +94,12 @@ public class UsuarioController {
                 nuevoUsuario.getUsername(),
                 roles.stream().map(Rol::getRole).collect(java.util.stream.Collectors.toSet())
         );
-
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUsuario(@PathVariable Long id){
+        usuarioServices.deleteUsuario(id);
+        return ResponseEntity.noContent().build();
     }
 }

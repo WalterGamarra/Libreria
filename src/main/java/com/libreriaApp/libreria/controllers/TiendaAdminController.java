@@ -26,13 +26,13 @@ public class TiendaAdminController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @PreAuthorize("hasAnyRole('ADMIN','USER', 'INVITADO')")
     public ResponseEntity<List<Libro>> listarLibros(){
         return ResponseEntity.ok(libroService.listarLibros());
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @PreAuthorize("hasAnyRole('ADMIN','USER', 'INVITADO' )")
 
     public ResponseEntity<Libro> getLibroPorId(@PathVariable Long id){
         return libroService.buscarPorLibro(id)
@@ -42,7 +42,7 @@ public class TiendaAdminController {
 
     // SOLO ADMIN
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN', 'INVITADO')")
     public ResponseEntity<Libro> crear(@RequestBody LibroCreateDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(libroService.crearLibro(dto));
