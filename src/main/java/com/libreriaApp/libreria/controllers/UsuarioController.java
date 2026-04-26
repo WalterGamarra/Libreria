@@ -79,9 +79,9 @@ public class UsuarioController {
             rolService.findById(rolId).ifPresent(roles::add);
         }
 
+        usuario.setUsername(dto.getUsername());
         usuario.setRolesList(roles);
         usuario.setPassword(usuarioServices.encriptPassword(dto.getPassword()));
-        usuario.setRolesList(roles);
         usuario.setEnabled(true);
         usuario.setAccountNotExpired(true);
         usuario.setCredentialNotExpired(true);
