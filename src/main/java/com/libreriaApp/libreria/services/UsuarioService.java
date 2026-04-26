@@ -47,13 +47,9 @@ public class UsuarioService implements IUsuarioServices {
     public UserSec updateUsuario(UserSec usuario) {
         return usuarioRepo.save(usuario);
     }
+
     @Override
     public void deleteUsuario(Long id) {
-        UserSec usuario = usuarioRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-        usuario.getRolesList().clear();
-        usuarioRepo.save(usuario);
         usuarioRepo.deleteById(id);
     }
 }
