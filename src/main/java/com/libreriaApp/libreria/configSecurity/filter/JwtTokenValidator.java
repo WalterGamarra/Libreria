@@ -54,10 +54,9 @@ public class JwtTokenValidator extends OncePerRequestFilter {
 
 
             } catch (Exception e) {
+                System.out.println("Error validando token: " + e.getMessage());
             }
         }
-
-
         filterChain.doFilter(request, response);
 
     }

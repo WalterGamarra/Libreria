@@ -66,7 +66,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
     public AuthResponseDTO loginUser(AuthLoginRequestDTO authLoginRequest){
 
-        //Recuperar nombre de usuario y coontraseña
+
         String username = authLoginRequest.username();
         String password = authLoginRequest.password();
 
