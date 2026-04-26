@@ -42,7 +42,7 @@ public class TiendaAdminController {
 
     //  ADMIN + INVITADO
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN', 'INVITADO')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'INVITADO')")
     public ResponseEntity<Libro> crear(@RequestBody LibroCreateDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(libroService.crearLibro(dto));
