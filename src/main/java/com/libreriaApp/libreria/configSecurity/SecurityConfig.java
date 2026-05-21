@@ -40,6 +40,7 @@ public class SecurityConfig {
 
                         .authorizeHttpRequests(auth -> auth
                                 .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/setup/**").permitAll()
                                 .requestMatchers("/api/v1/tienda/admin/**").authenticated()
                                 .requestMatchers("/api/v1/tienda/**").permitAll()
                                 .requestMatchers(
