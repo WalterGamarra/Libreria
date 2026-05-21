@@ -7,8 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ILibrosRepository extends JpaRepository<Libro, Long> {
 
-    //Aqui creo los metodos customizados, si los necesito.
-    //Los metodos CRUD clasico ya extienden de JPARepository
-
 
 }

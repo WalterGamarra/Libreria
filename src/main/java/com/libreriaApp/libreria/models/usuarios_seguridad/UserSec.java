@@ -32,7 +32,4 @@ public class UserSec   {
 
 
     private Set<Rol> rolesList = new HashSet<>(); //Set para que no registre repetidos
-
-
-
 }

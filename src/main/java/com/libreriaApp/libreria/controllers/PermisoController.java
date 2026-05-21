@@ -37,5 +37,4 @@ public class PermisoController {
         return ResponseEntity.ok(nuevoPermiso);
     }
 
-
 }
